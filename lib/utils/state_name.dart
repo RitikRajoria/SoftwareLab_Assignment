@@ -1,4 +1,4 @@
-const states = [
+List<String> states = [
   'Alabama',
   'Alaska',
   'Arizona',
