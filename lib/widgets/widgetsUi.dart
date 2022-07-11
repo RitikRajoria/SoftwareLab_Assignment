@@ -89,10 +89,10 @@ Widget inputFields(String src, String hint, bool suffixBtn,
         fillColor: Color(0xffeeedec),
         filled: true,
         prefixIcon: Container(
-            height: 10,
-            width: 10,
+            height: 15,
+            width: 15,
             child: Padding(
-              padding: const EdgeInsets.all(14.0),
+              padding: const EdgeInsets.all(15.0),
               child: Image.asset(src),
             )),
         suffix: suffixBtn
