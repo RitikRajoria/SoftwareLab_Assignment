@@ -77,7 +77,7 @@ class _ForgotPassState extends State<ForgotPass> {
                     child: Column(
                       children: [
                         //email
-                        inputFields('assets/Vector@2x-1.png', 'Phone Number',
+                        inputFields('assets/Vector@3x-1.png', 'Phone Number',
                             false, phoneController, false),
                         const SizedBox(
                           height: 20,
