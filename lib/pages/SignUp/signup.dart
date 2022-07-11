@@ -100,7 +100,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         //email
                         inputFields('assets/Vector@3x-2.png', 'Email Address',
-                            false, fullName, false),
+                            false, email, false),
                         const SizedBox(
                           height: 25,
                         ),
