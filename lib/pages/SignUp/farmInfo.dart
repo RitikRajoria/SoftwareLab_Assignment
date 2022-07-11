@@ -65,7 +65,7 @@ class _FarmInfoState extends State<FarmInfo> {
                     child: Text(
                       'Farm Info',
                       style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
                     ),
                   ),
                   const SizedBox(

@@ -44,7 +44,7 @@ class _Verify_FPState extends State<Verify_FP> {
                     child: Text(
                       'Verify OTP',
                       style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
                     ),
                   ),
                   const SizedBox(

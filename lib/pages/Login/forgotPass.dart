@@ -42,7 +42,7 @@ class _ForgotPassState extends State<ForgotPass> {
                     child: Text(
                       'Forgot Password?',
                       style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
                     ),
                   ),
                   const SizedBox(

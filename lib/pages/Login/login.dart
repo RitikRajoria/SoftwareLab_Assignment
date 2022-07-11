@@ -46,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Text(
                       'Welcome back!',
                       style:
-                          TextStyle(fontSize: 32, fontWeight: FontWeight.w500),
+                          TextStyle(fontSize: 32, fontWeight: FontWeight.w600),
                     ),
                   ),
                   const SizedBox(
