@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.all(30.0),
               child: Column(
                 children: [
+                  // first heading
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -38,6 +39,8 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 100,
                   ),
+
+                  //welcome back text
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -49,6 +52,8 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 15,
                   ),
+
+                  //sign up text
                   Row(
                     children: [
                       Text(
@@ -69,22 +74,29 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 50,
                   ),
+                  //email & password field
                   Container(
                     height: 180,
                     child: Column(
                       children: [
+                        //email
                         inputFields('assets/Vector@3x-2.png', 'Email Address',
                             false, emailController, false),
                         const SizedBox(
                           height: 28,
                         ),
+                        //password field
                         inputFields('assets/Group 47@3x.png', 'Password', true,
                             passwordController, true),
                       ],
                     ),
                   ),
-                  buttonWidget(
-                    'Login',
+                  //login button
+                  InkWell(
+                    onTap: () {},
+                    child: buttonWidget(
+                      'Login',
+                    ),
                   ),
                   const SizedBox(
                     height: 34,
@@ -98,6 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(
                     height: 50,
                   ),
+                  //icon buttons only ui
                   iconButtons(),
                 ],
               ),
