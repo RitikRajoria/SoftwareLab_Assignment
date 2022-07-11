@@ -76,6 +76,22 @@ Widget buttonWidget(String text) {
   );
 }
 
+Widget buttonWidgetUnderlined(String text) {
+  return Container(
+    height: 55,
+    child: Center(
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          decoration: TextDecoration.underline,
+        ),
+      ),
+    ),
+  );
+}
+
 Widget inputFields(String src, String hint, bool suffixBtn,
     TextEditingController controller, bool obscureText) {
   return Container(
