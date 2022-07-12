@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:softwarelab_assignment/pages/SignUp/verify_signUp.dart';
 import 'package:softwarelab_assignment/utils/state_name.dart';
 import 'package:softwarelab_assignment/widgets/widgetsUi.dart';
 
 class FarmInfo extends StatefulWidget {
-  const FarmInfo({Key? key}) : super(key: key);
+  final String email;
+  final String password;
+  final String phone;
+
+  final String fullname;
+
+  const FarmInfo(
+      {super.key,
+      required this.email,
+      required this.password,
+      required this.phone,
+      required this.fullname});
 
   @override
   State<FarmInfo> createState() => _FarmInfoState();
@@ -18,6 +30,24 @@ class _FarmInfoState extends State<FarmInfo> {
   TextEditingController streetAddress = TextEditingController();
   TextEditingController city = TextEditingController();
   TextEditingController zipcode = TextEditingController();
+
+  _nextPage() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VerifySignup(
+              email: widget.email,
+              password: widget.password,
+              phone: widget.phone,
+              fullname: widget.fullname,
+              bName: businessName.text,
+              nickName: nickName.text,
+              address: streetAddress.text,
+              city: city.text,
+              state: dropdownValue!,
+              zipcode: zipcode.text),
+        ));
+  }
 
   String? dropdownValue;
 
@@ -97,7 +127,7 @@ class _FarmInfoState extends State<FarmInfo> {
                         ),
                         //city name
                         inputFields('assets/Group 58@3x.png', 'City', false,
-                            city, true),
+                            city, false),
                         const SizedBox(
                           height: 25,
                         ),
@@ -164,7 +194,9 @@ class _FarmInfoState extends State<FarmInfo> {
                     children: [
                       //back button
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
                         child: Container(
                           height: 18,
                           width: 26,
@@ -174,7 +206,9 @@ class _FarmInfoState extends State<FarmInfo> {
 
                       //continue button
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          _nextPage();
+                        },
                         child: Container(
                           width: (size.width) * 0.58,
                           child: buttonWidget(

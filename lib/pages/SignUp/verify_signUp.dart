@@ -3,11 +3,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:open_file/open_file.dart';
+import 'package:softwarelab_assignment/pages/SignUp/businessHours.dart';
 
 import '../../widgets/widgetsUi.dart';
 
 class VerifySignup extends StatefulWidget {
-  const VerifySignup({Key? key}) : super(key: key);
+  final String email;
+  final String password;
+  final String phone;
+  final String fullname;
+  final String bName;
+  final String nickName;
+  final String address;
+  final String city;
+  final String state;
+  final String zipcode;
+
+  const VerifySignup(
+      {super.key,
+      required this.email,
+      required this.password,
+      required this.phone,
+      required this.fullname,
+      required this.bName,
+      required this.nickName,
+      required this.address,
+      required this.city,
+      required this.state,
+      required this.zipcode});
 
   @override
   State<VerifySignup> createState() => _VerifySignupState();
@@ -16,6 +39,26 @@ class VerifySignup extends StatefulWidget {
 class _VerifySignupState extends State<VerifySignup> {
   String fileName = "";
   TextEditingController filename = TextEditingController();
+
+  _nextPage() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BusinessHoursPage(
+            email: widget.email,
+            password: widget.password,
+            phone: widget.phone,
+            fullname: widget.fullname,
+            bName: widget.bName,
+            nickName: widget.nickName,
+            address: widget.address,
+            city: widget.city,
+            state: widget.state,
+            zipcode: widget.zipcode,
+            verification: fileName,
+          ),
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +236,9 @@ class _VerifySignupState extends State<VerifySignup> {
                       children: [
                         //back button
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
                           child: Container(
                             height: 18,
                             width: 26,
@@ -203,7 +248,11 @@ class _VerifySignupState extends State<VerifySignup> {
 
                         //continue button
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            if (fileName.isNotEmpty) {
+                              _nextPage();
+                            }
+                          },
                           child: Container(
                             width: (size.width) * 0.58,
                             child: buttonWidget(

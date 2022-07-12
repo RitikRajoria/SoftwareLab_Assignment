@@ -6,7 +6,31 @@ import 'package:softwarelab_assignment/utils/weekDays.dart';
 import '../../utils/hours.dart';
 
 class BusinessHoursPage extends StatefulWidget {
-  const BusinessHoursPage({Key? key}) : super(key: key);
+  final String email;
+  final String password;
+  final String phone;
+  final String fullname;
+  final String bName;
+  final String nickName;
+  final String address;
+  final String city;
+  final String state;
+  final String zipcode;
+  final String verification;
+
+  const BusinessHoursPage(
+      {super.key,
+      required this.email,
+      required this.password,
+      required this.phone,
+      required this.fullname,
+      required this.bName,
+      required this.nickName,
+      required this.address,
+      required this.city,
+      required this.state,
+      required this.zipcode,
+      required this.verification});
 
   @override
   State<BusinessHoursPage> createState() => _BusinessHoursPageState();
@@ -30,6 +54,12 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
             'name': '${hours[index]}',
             'isSelected': false,
           });
+          
+ 
+
+  _register() {
+    print('register');
+  }
 
   @override
   Widget build(BuildContext context) {
