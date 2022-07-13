@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:softwarelab_assignment/data%20services/data_services.dart';
 import 'package:softwarelab_assignment/pages/SignUp/farmInfo.dart';
 
+import '../../widgets/helper.dart';
 import '../../widgets/widgetsUi.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -35,7 +36,6 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -111,31 +111,62 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Column(
                       children: [
                         //full name
-                        inputFields(src: 'assets/Group 54@3x.png',hint:  'Full Name',suffixBtn: 
-                            false,controller:  _fullName,obscureText:  false,context:  context),
+                        inputFields(
+                            src: 'assets/Group 54@3x.png',
+                            hint: 'Full Name',
+                            suffixBtn: false,
+                            controller: _fullName,
+                            obscureText: false,
+                            context: context,
+                            validate: _nameValidate),
                         const SizedBox(
                           height: 25,
                         ),
                         //email
-                        inputFields(src: 'assets/Vector@3x-2.png',hint:  'Email Address',suffixBtn: 
-                            false,controller:  _email,obscureText:  false,context:  context),
+                        inputFields(
+                            src: 'assets/Vector@3x-2.png',
+                            hint: 'Email Address',
+                            suffixBtn: false,
+                            controller: _email,
+                            obscureText: false,
+                            context: context,
+                            validate: _emailValidate),
                         const SizedBox(
                           height: 25,
                         ),
                         //phone number
-                        inputFields(src:'assets/Vector@3x-1.png',hint:  'Phone Number',suffixBtn: 
-                            false,controller:  _phoneNumber,obscureText:  false,context:  context),
+                        inputFields(
+                            src: 'assets/Vector@3x-1.png',
+                            hint: 'Phone Number',
+                            suffixBtn: false,
+                            controller: _phoneNumber,
+                            obscureText: false,
+                            context: context,
+                            validate: _phoneValidate,
+                            keyType: TextInputType.phone),
                         const SizedBox(
                           height: 25,
                         ),
                         //password field
-                        inputFields(src:'assets/Group 47@3x.png', hint: 'Enter Password',suffixBtn: 
-                            false,controller:  _pass,obscureText:  true,context:  context),
+                        inputFields(
+                            src: 'assets/Group 47@3x.png',
+                            hint: 'Enter Password',
+                            suffixBtn: false,
+                            controller: _pass,
+                            obscureText: true,
+                            context: context,
+                            validate: _passwordValidate),
                         const SizedBox(
                           height: 25,
                         ),
-                        inputFields(src:'assets/Group 47@3x.png',hint: 
-                            'Re-enter Password',suffixBtn:  false,controller:  _rePass, obscureText:  true,context:  context),
+                        inputFields(
+                            src: 'assets/Group 47@3x.png',
+                            hint: 'Re-enter Password',
+                            suffixBtn: false,
+                            controller: _rePass,
+                            obscureText: true,
+                            context: context,
+                            validate: _passwordValidate),
                       ],
                     ),
                   ),
@@ -156,7 +187,17 @@ class _SignUpPageState extends State<SignUpPage> {
                       //continue button
                       InkWell(
                         onTap: () {
-                          _nextPage();
+                          if (_formKey.currentState!.validate()) {
+                            if (_pass.text.isNotEmpty &&
+                                _rePass.text.isNotEmpty) {
+                              if (_pass.text == _rePass.text) {
+                                _nextPage();
+                              } else {
+                                snackBar(context,
+                                    "Enter same password in both fields.");
+                              }
+                            }
+                          }
                         },
                         child: Container(
                           width: (size.width) * 0.58,
@@ -174,5 +215,58 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
     );
+  }
+
+  String? _emailValidate(String? value) {
+    if (value == null) {
+      return null;
+    }
+    if (value.isEmpty) {
+      snackBar(context, "Please enter email.");
+      return null;
+    }
+    //reg expression
+    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+      snackBar(context, "Please enter a valid email.");
+      return null;
+    }
+  }
+
+  String? _passwordValidate(String? value) {
+    RegExp regex = new RegExp(r'^.{6,}$');
+    if (value!.isEmpty) {
+      snackBar(context, "Password is required for login");
+      return null;
+    }
+    if (!regex.hasMatch(value)) {
+      snackBar(context, "Enter Valid Password(Min. 6 Character)");
+      return null;
+    }
+  }
+
+  String? _phoneValidate(String? value) {
+    RegExp regex = new RegExp(r'^.{10,}$');
+    if (value!.isEmpty) {
+      snackBar(context, "Phone Number cannot be empty");
+      return null;
+    }
+    if (!regex.hasMatch(value)) {
+      snackBar(context, "Enter Minimum 10 Character For Your Phone Number.");
+      return null;
+    }
+    return null;
+  }
+
+  String? _nameValidate(String? value) {
+    RegExp regex = new RegExp(r'^.{3,}$');
+    if (value!.isEmpty) {
+      snackBar(context, "Name cannot be empty");
+      return null;
+    }
+    if (!regex.hasMatch(value)) {
+      snackBar(context, "Enter Minimum 3 Character For Your Name.");
+      return null;
+    }
+    return null;
   }
 }

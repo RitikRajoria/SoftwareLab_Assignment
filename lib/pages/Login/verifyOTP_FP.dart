@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:softwarelab_assignment/pages/Login/login.dart';
 import 'package:softwarelab_assignment/pages/Login/resetPass.dart';
+import 'package:softwarelab_assignment/widgets/helper.dart';
 
 import '../../data services/data_services.dart';
 import '../../widgets/widgetsUi.dart';
@@ -43,8 +44,7 @@ class _Verify_OtpState extends State<Verify_Otp> {
     if (body['success']) {
       //success true
       print("logged In");
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("OTP verified successful.")));
+      snackBar(context, "OTP verified successfully!");
 
       Navigator.push(
           context,
@@ -53,13 +53,11 @@ class _Verify_OtpState extends State<Verify_Otp> {
                     token: body['token'],
                   )));
     } else if (res.statusCode == 401) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+      snackBar(context, body['message']);
     } else {
       //success false state
       //server error
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+      snackBar(context, body['message']);
     }
   }
 
@@ -190,7 +188,16 @@ class _Verify_OtpState extends State<Verify_Otp> {
                   ),
                   TextButton(
                     onPressed: () {
-                      _resendOTP();
+                      if (verifyController1.text.isNotEmpty &&
+                          verifyController2.text.isNotEmpty &&
+                          verifyController3.text.isNotEmpty &&
+                          verifyController4.text.isNotEmpty &&
+                          verifyController5.text.isNotEmpty &&
+                          verifyController6.text.isNotEmpty) {
+                        _resendOTP();
+                      } else {
+                        snackBar(context, "Fill all OTP fields.");
+                      }
                     },
                     child: Text(
                       'Resend Code',

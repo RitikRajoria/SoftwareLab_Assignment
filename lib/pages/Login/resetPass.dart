@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:softwarelab_assignment/pages/Login/login.dart';
+import 'package:softwarelab_assignment/widgets/helper.dart';
 
 import '../../data services/data_services.dart';
 import '../../widgets/widgetsUi.dart';
@@ -32,14 +33,12 @@ class _ResetPassState extends State<ResetPass> {
     if (body['success']) {
       //pass reset done
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Your password has been successfully changed.")));
+      snackBar(context, "Your password have been changed successfully!");
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => LoginPage()));
     } else {
       //server error message
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+      snackBar(context, body['message']);
     }
   }
 
@@ -119,19 +118,21 @@ class _ResetPassState extends State<ResetPass> {
                             suffixBtn: false,
                             controller: newPass,
                             obscureText: false,
-                            context: context),
+                            context: context,
+                            validate: _resetValidate),
 
                         const SizedBox(
                           height: 28,
                         ),
                         //re-enter password
                         inputFields(
-                            src:'assets/Group 47@3x.png',
-                            hint:'Confirm New Password',
-                            suffixBtn:  false,
+                            src: 'assets/Group 47@3x.png',
+                            hint: 'Confirm New Password',
+                            suffixBtn: false,
                             controller: confirmPass,
                             obscureText: false,
-                            context: context),
+                            context: context,
+                            validate: _resetValidate),
 
                         const SizedBox(
                           height: 20,
@@ -143,7 +144,13 @@ class _ResetPassState extends State<ResetPass> {
                   //submit button
                   InkWell(
                     onTap: () {
-                      _resetPass();
+                      if (_formKey.currentState!.validate()) {
+                        if (newPass.text == confirmPass.text) {
+                          _resetPass();
+                        } else {
+                          snackBar(context, "Both Fields don't match");
+                        }
+                      }
                     },
                     child: buttonWidget(
                       'Submit',
@@ -159,5 +166,18 @@ class _ResetPassState extends State<ResetPass> {
         ),
       ),
     );
+  }
+
+  String? _resetValidate(String? value) {
+    RegExp regex = new RegExp(r'^.{6,}$');
+    if (value!.isEmpty) {
+      snackBar(context, "Fill both fields.");
+      return null;
+    }
+    if (!regex.hasMatch(value)) {
+      snackBar(context, "Enter Minimum 6 Character For Your Password.");
+      return null;
+    }
+    return null;
   }
 }

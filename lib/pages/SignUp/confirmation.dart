@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:softwarelab_assignment/pages/Login/login.dart';
 import 'package:softwarelab_assignment/widgets/widgetsUi.dart';
 
 class ConfirmationSignUp extends StatefulWidget {
@@ -56,7 +57,10 @@ class _ConfirmationSignUpState extends State<ConfirmationSignUp> {
                     height: 184,
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => LoginPage()));
+                    },
                     child: buttonWidget('Got it!'),
                   ),
                 ],

@@ -5,6 +5,8 @@ import 'package:softwarelab_assignment/pages/SignUp/verify_signUp.dart';
 import 'package:softwarelab_assignment/utils/state_name.dart';
 import 'package:softwarelab_assignment/widgets/widgetsUi.dart';
 
+import '../../widgets/helper.dart';
+
 class FarmInfo extends StatefulWidget {
   final String email;
   final String password;
@@ -109,26 +111,50 @@ class _FarmInfoState extends State<FarmInfo> {
                     child: Column(
                       children: [
                         //business name
-                        inputFields(src:'assets/Group 59@3x.png',hint:  'Business Name',suffixBtn: 
-                            false,controller:  businessName,obscureText:  false,context:  context),
+                        inputFields(
+                            src: 'assets/Group 59@3x.png',
+                            hint: 'Business Name',
+                            suffixBtn: false,
+                            controller: businessName,
+                            obscureText: false,
+                            context: context,
+                            validate: _nameValidate),
                         const SizedBox(
                           height: 25,
                         ),
                         //informal name
-                        inputFields(src: 'assets/Group 57@3x.png',hint:  'Informal Name',
-                            suffixBtn: false,controller:  nickName,obscureText:  false,context:  context),
+                        inputFields(
+                            src: 'assets/Group 57@3x.png',
+                            hint: 'Informal Name',
+                            suffixBtn: false,
+                            controller: nickName,
+                            obscureText: false,
+                            context: context,
+                            validate: _nameValidate),
                         const SizedBox(
                           height: 25,
                         ),
                         //street address
-                        inputFields(src:'assets/Vector@3x-3.png',hint:  'Street Address',suffixBtn: 
-                            false,controller:  streetAddress,obscureText:  false,context:  context),
+                        inputFields(
+                            src: 'assets/Vector@3x-3.png',
+                            hint: 'Street Address',
+                            suffixBtn: false,
+                            controller: streetAddress,
+                            obscureText: false,
+                            context: context,
+                            validate: _addressValidate),
                         const SizedBox(
                           height: 25,
                         ),
                         //city name
-                        inputFields(src: 'assets/Group 58@3x.png',hint:  'City',suffixBtn:  false,
-                           controller:  city,obscureText:  false,context:  context),
+                        inputFields(
+                            src: 'assets/Group 58@3x.png',
+                            hint: 'City',
+                            suffixBtn: false,
+                            controller: city,
+                            obscureText: false,
+                            context: context,
+                            validate: _cityValidate),
                         const SizedBox(
                           height: 25,
                         ),
@@ -170,7 +196,24 @@ class _FarmInfoState extends State<FarmInfo> {
                               width: (size.width) * 0.42,
                               height: 60,
                               child: TextFormField(
+                                validator: (value) {
+                                  RegExp regex = RegExp(r'^.{5,}$');
+                                  if (value!.isEmpty) {
+                                    snackBar(context, "Enter zipcode");
+                                    return null;
+                                  }
+                                  if (!regex.hasMatch(value)) {
+                                    snackBar(context,
+                                        "Enter Minimum 5 Character For Zipcode.");
+                                    return null;
+                                  }
+                                  return null;
+                                },
                                 controller: zipcode,
+                                onSaved: (value) {
+                                  zipcode.text = value!;
+                                },
+                                keyboardType: TextInputType.number,
                                 cursorColor: Colors.black,
                                 decoration: InputDecoration(
                                   fillColor: Color(0xffeeedec),
@@ -208,7 +251,14 @@ class _FarmInfoState extends State<FarmInfo> {
                       //continue button
                       InkWell(
                         onTap: () {
-                          _nextPage();
+                          if (_formKey.currentState!.validate()) {
+                            if (dropdownValue != "" &&
+                                zipcode.text.isNotEmpty) {
+                              _nextPage();
+                            } else {
+                              snackBar(context, "Select your state.");
+                            }
+                          }
                         },
                         child: Container(
                           width: (size.width) * 0.58,
@@ -226,5 +276,44 @@ class _FarmInfoState extends State<FarmInfo> {
         ),
       ),
     );
+  }
+
+  String? _nameValidate(String? value) {
+    RegExp regex = new RegExp(r'^.{3,}$');
+    if (value!.isEmpty) {
+      snackBar(context, "Name cannot be empty");
+      return null;
+    }
+    if (!regex.hasMatch(value)) {
+      snackBar(context, "Enter Minimum 3 Character For Your Name.");
+      return null;
+    }
+    return null;
+  }
+
+  String? _addressValidate(String? value) {
+    RegExp regex = new RegExp(r'^.{3,}$');
+    if (value!.isEmpty) {
+      snackBar(context, "Address cannot be empty");
+      return null;
+    }
+    if (!regex.hasMatch(value)) {
+      snackBar(context, "Enter Minimum 3 Character For Address.");
+      return null;
+    }
+    return null;
+  }
+
+  String? _cityValidate(String? value) {
+    RegExp regex = new RegExp(r'^.{3,}$');
+    if (value!.isEmpty) {
+      snackBar(context, "City cannot be empty");
+      return null;
+    }
+    if (!regex.hasMatch(value)) {
+      snackBar(context, "Enter Minimum 3 Character For City Name.");
+      return null;
+    }
+    return null;
   }
 }

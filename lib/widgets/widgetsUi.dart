@@ -93,8 +93,15 @@ Widget buttonWidgetUnderlined(String text) {
   );
 }
 
-Widget inputFields({required String src, required String hint, required bool suffixBtn,
-    required TextEditingController controller, required bool obscureText, required BuildContext context, String? Function(String?)? validate}) {
+Widget inputFields(
+    {required String src,
+    required String hint,
+    required bool suffixBtn,
+    required TextEditingController controller,
+    required bool obscureText,
+    required BuildContext context,
+    String? Function(String?)? validate,
+    TextInputType? keyType}) {
   return Container(
     width: double.infinity,
     height: 60,
@@ -102,6 +109,7 @@ Widget inputFields({required String src, required String hint, required bool suf
       validator: validate,
       obscureText: obscureText,
       controller: controller,
+      keyboardType: keyType,
       cursorColor: Colors.black,
       decoration: InputDecoration(
         fillColor: Color(0xffeeedec),
@@ -138,5 +146,3 @@ Widget inputFields({required String src, required String hint, required bool suf
     ),
   );
 }
-
-

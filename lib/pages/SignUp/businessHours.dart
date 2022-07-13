@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:softwarelab_assignment/pages/SignUp/confirmation.dart';
 import 'package:softwarelab_assignment/pages/SignUp/widgets/hours_widget.dart';
 
 import 'package:softwarelab_assignment/utils/weekDays.dart';
@@ -86,6 +87,8 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
       print("registered");
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Registered Successfully!")));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ConfirmationSignUp()));
     } else if (body['message'] == "Email already exists.") {
       //email exists
       print("emailexists");
@@ -156,14 +159,6 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-
-    //print(currentSelectedDay.selectedHours);
-
-    // for (var hour in hoursData) {
-    //   currentSelectedDay.selectedHours.forEach((element) {
-    //     hour.isSelected = element.name == hour.name ? true : false;
-    //   });
-    // }
 
     return Scaffold(
       body: SafeArea(

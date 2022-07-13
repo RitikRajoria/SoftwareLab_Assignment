@@ -4,6 +4,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:open_file/open_file.dart';
 import 'package:softwarelab_assignment/pages/SignUp/businessHours.dart';
+import 'package:softwarelab_assignment/widgets/helper.dart';
 
 import '../../widgets/widgetsUi.dart';
 
@@ -254,6 +255,8 @@ class _VerifySignupState extends State<VerifySignup> {
                           onTap: () {
                             if (fileName.isNotEmpty) {
                               _nextPage();
+                            } else {
+                              snackBar(context, "Select a file!");
                             }
                           },
                           child: Container(

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:softwarelab_assignment/pages/Login/verifyOTP_FP.dart';
+import 'package:softwarelab_assignment/widgets/helper.dart';
 import 'package:softwarelab_assignment/widgets/widgetsUi.dart';
 
 import '../../data services/data_services.dart';
@@ -27,8 +28,7 @@ class _ForgotPassState extends State<ForgotPass> {
     if (body['success']) {
       //otp sent
       print("logged In");
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("OTP sent to your mobile.")));
+      snackBar(context, "OTP sent to your mobile.");
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -38,12 +38,10 @@ class _ForgotPassState extends State<ForgotPass> {
     } else if (body['message'] == "Couldn't send an OTP, please try again.") {
       //success false state
 
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+      snackBar(context, body['message']);
     } else {
       //account with number not exists
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+      snackBar(context, body['message']);
     }
   }
 
@@ -120,7 +118,9 @@ class _ForgotPassState extends State<ForgotPass> {
                             suffixBtn: false,
                             controller: phoneController,
                             obscureText: false,
-                            context: context),
+                            context: context,
+                            keyType: TextInputType.phone,
+                            validate: _phoneValidate),
                         const SizedBox(
                           height: 20,
                         ),
@@ -131,7 +131,9 @@ class _ForgotPassState extends State<ForgotPass> {
                   //login button
                   InkWell(
                     onTap: () {
-                      _forgotPass();
+                      if (_formKey.currentState!.validate()) {
+                        _forgotPass();
+                      }
                     },
                     child: buttonWidget(
                       'Send Code',
@@ -147,5 +149,18 @@ class _ForgotPassState extends State<ForgotPass> {
         ),
       ),
     );
+  }
+
+  String? _phoneValidate(String? value) {
+    RegExp regex = new RegExp(r'^.{10,}$');
+    if (value!.isEmpty) {
+      snackBar(context, "Phone Number cannot be empty");
+      return null;
+    }
+    if (!regex.hasMatch(value)) {
+      snackBar(context, "Enter Minimum 10 Character For Your Phone Number.");
+      return null;
+    }
+    return null;
   }
 }

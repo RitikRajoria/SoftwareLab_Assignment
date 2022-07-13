@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:softwarelab_assignment/pages/SignUp/signup.dart';
+import 'package:softwarelab_assignment/widgets/helper.dart';
 
 import '../../data services/data_services.dart';
 import '../../widgets/widgetsUi.dart';
@@ -29,23 +30,19 @@ class _LoginPageState extends State<LoginPage> {
     if (body['success']) {
       //navigate to other page
       print("logged In");
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("Logged In Successfully!")));
+      snackBar(context, "Log In Successful!");
     } else if (body['message'] == "Account does not exist.") {
       //email exists
       print("email not exists");
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+      snackBar(context, body['message']);
     } else if (body['message'] ==
         "Account is not verified, please contact administrator.") {
       //navigate to other page
       print(body['message']);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+      snackBar(context, body['message']);
     } else {
       print(body['message']);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+      snackBar(context, body['message']);
     }
   }
 
@@ -54,11 +51,25 @@ class _LoginPageState extends State<LoginPage> {
       return null;
     }
     if (value.isEmpty) {
-      return ("Please Enter Your Email");
+      snackBar(context, "Please enter email.");
+      return null;
     }
     //reg expression
     if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-      return ("Please Enter a valid email");
+      snackBar(context, "Please enter a valid email.");
+      return null;
+    }
+  }
+
+  String? _passwordValidate(String? value) {
+    RegExp regex = new RegExp(r'^.{6,}$');
+    if (value!.isEmpty) {
+      snackBar(context, "Password is required for login");
+      return null;
+    }
+    if (!regex.hasMatch(value)) {
+      snackBar(context, "Enter Valid Password(Min. 6 Character)");
+      return null;
     }
   }
 
@@ -133,34 +144,53 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       children: [
                         //email
-                        inputFields(
-                          src: 'assets/Vector@3x-2.png',
-                          hint: 'Email Address',
-                          suffixBtn: false,
-                          controller: emailController,
-                          obscureText: false,
-                          context: context,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xffeeedec),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: inputFields(
+                                src: 'assets/Vector@3x-2.png',
+                                hint: 'Email Address',
+                                suffixBtn: false,
+                                controller: emailController,
+                                obscureText: false,
+                                context: context,
+                                validate: _emailValidate),
+                          ),
                         ),
 
                         const SizedBox(
                           height: 28,
                         ),
                         //password field
-                        inputFields(
-                            src: 'assets/Group 47@3x.png',
-                            hint: 'Password',
-                            suffixBtn: true,
-                            controller: passwordController,
-                            obscureText: true,
-                            context: context),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Color(0xffeeedec),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: inputFields(
+                                src: 'assets/Group 47@3x.png',
+                                hint: 'Password',
+                                suffixBtn: true,
+                                controller: passwordController,
+                                obscureText: true,
+                                context: context,
+                                validate: _passwordValidate),
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   //login button
                   InkWell(
                     onTap: () {
-                      _login();
-                      print("trying log in");
+                      if (_formKey.currentState!.validate()) {
+                        _login();
+                        print("trying log in");
+                      }
                     },
                     child: buttonWidget(
                       'Login',
