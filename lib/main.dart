@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:softwarelab_assignment/pages/Login/forgotPass.dart';
 import 'package:softwarelab_assignment/pages/Login/login.dart';
 import 'package:softwarelab_assignment/pages/Login/verifyOTP_FP.dart';
+import 'package:softwarelab_assignment/pages/OnBoarding/onBoarding1.dart';
 import 'package:softwarelab_assignment/pages/SignUp/signup.dart';
 
 void main() {
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         inputDecorationTheme: InputDecorationTheme(
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: SignUpPage(),
+      home: Onboarding1(),
     );
   }
 }
