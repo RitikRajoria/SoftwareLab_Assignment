@@ -3,26 +3,31 @@ import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 
-class RegisterCallApi {
-  final String baseUrl = "https://sowlab.tech/assignment/user/register";
+class CallApi {
+  final String baseUrl = "https://sowlab.tech/assignment/";
 
-  registerAccount(Map<String, dynamic> data) async {
+  registerAccount(Map<String, dynamic> data, String apiUrl) async {
     var newData = data;
+    String fullUrl = baseUrl + apiUrl;
     var res = http.post(
-      Uri.parse(baseUrl),
+      Uri.parse(fullUrl),
       body: newData,
     );
     return res;
   }
 
-  loginAccount(Map<String, dynamic> data) async {
+  loginAccount(String data, String apiUrl) async {
     var newData = data;
-    var res = http.post(
-      Uri.parse(baseUrl),
-      body: newData,
+    String fullUrl = baseUrl + apiUrl;
+    final headers = {"Content-Type": "application/json"};
+    var res = await http.post(
+      Uri.parse(fullUrl),
+      headers: headers,
+      body: data,
     );
+    var body = jsonDecode(res.body);
+    print(body);
+    print(res.statusCode);
     return res;
   }
-
-  _setHeaders() => {'Content-Type': 'multipart/form-data'};
 }
