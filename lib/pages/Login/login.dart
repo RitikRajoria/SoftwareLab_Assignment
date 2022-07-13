@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:softwarelab_assignment/pages/SignUp/signup.dart';
 
+import '../../data services/data_services.dart';
 import '../../widgets/widgetsUi.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,6 +17,37 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  _login() async {
+    print("Logging....");
+
+    String data =
+        '{"email": "${emailController.text}","password": "${passwordController.text}","role": "farmer","device_token": "0imfnc8mVLWwsAawjYr4Rx-Af50DDqtlx","type": "email","social_id": "0imfnc8mVLWwsAawjYr4Rx-Af50DDqtlx"}';
+
+    var res = await CallApi().loginAccount(data, 'user/login');
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      //navigate to other page
+      print("logged In");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Logged In Successfully!")));
+    } else if (body['message'] == "Account does not exist.") {
+      //email exists
+      print("email not exists");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+    } else if (body['message'] ==
+        "Account is not verified, please contact administrator.") {
+      //navigate to other page
+      print(body['message']);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+    } else {
+      print(body['message']);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,19 +121,22 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         //email
                         inputFields('assets/Vector@3x-2.png', 'Email Address',
-                            false, emailController, false,context),
+                            false, emailController, false, context),
                         const SizedBox(
                           height: 28,
                         ),
                         //password field
                         inputFields('assets/Group 47@3x.png', 'Password', true,
-                            passwordController, true,context),
+                            passwordController, true, context),
                       ],
                     ),
                   ),
                   //login button
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      _login();
+                      print("trying log in");
+                    },
                     child: buttonWidget(
                       'Login',
                     ),
