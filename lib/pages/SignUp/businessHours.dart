@@ -79,7 +79,7 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
     data['type'] = 'email';
     data['social_id'] = '0imfnc8mVLWwsAawjYr4Rx-Af50DDqtlx';
 
-    var res = await RegisterCallApi().registerAccount(data);
+    var res = await CallApi().registerAccount(data, 'user/register');
     var body = jsonDecode(res.body);
     if (body['success']) {
       //navigate to other page
