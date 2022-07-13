@@ -30,4 +30,47 @@ class CallApi {
     print(res.statusCode);
     return res;
   }
+
+  forgotPassAccount(String data, String apiUrl) async {
+    var newData = data;
+    String fullUrl = baseUrl + apiUrl;
+    final headers = {"Content-Type": "application/json"};
+    var res = await http.post(
+      Uri.parse(fullUrl),
+      headers: headers,
+      body: data,
+    );
+    var body = jsonDecode(res.body);
+    print(body);
+    print(res.statusCode);
+    return res;
+  }
+
+  verifyotpAccount(String data, String apiUrl) async {
+    String fullUrl = baseUrl + apiUrl;
+    final headers = {"Content-Type": "application/json"};
+    var res = await http.post(
+      Uri.parse(fullUrl),
+      headers: headers,
+      body: data,
+    );
+    var body = jsonDecode(res.body);
+    print(body);
+    print(res.statusCode);
+    return res;
+  }
+
+  resetPassAccount(String data, String apiUrl) async {
+    String fullUrl = baseUrl + apiUrl;
+    final headers = {"Content-Type": "application/json"};
+    var res = await http.post(
+      Uri.parse(fullUrl),
+      headers: headers,
+      body: data,
+    );
+    var body = jsonDecode(res.body);
+    print(body);
+    print(res.statusCode);
+    return res;
+  }
 }
