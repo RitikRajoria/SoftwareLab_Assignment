@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:softwarelab_assignment/pages/SignUp/widgets/hours_widget.dart';
 
 import 'package:softwarelab_assignment/utils/weekDays.dart';
 
@@ -39,15 +40,16 @@ class BusinessHoursPage extends StatefulWidget {
 class _BusinessHoursPageState extends State<BusinessHoursPage> {
   int selectedIndex = 0;
 
+  final List<Hours> hoursData = List.generate(hours.length, (index) {
+    return Hours(isSelected: false, name: hours[index]);
+  });
+
   final List<Days> weekData = List.generate(weekDays.length, (index) {
     return Days(
         selectedHours: [],
         isSelected: false,
         name: weekDays[index],
         currentIndex: false);
-  });
-  final List<Hours> hoursData = List.generate(hours.length, (index) {
-    return Hours(isSelected: false, name: hours[index]);
   });
 
   _register() {
@@ -62,18 +64,50 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
 
   int hoursViewIndex = 0;
 
+  List<Widget> hoursView = [];
+
+  @override
+  void initState() {
+    final List<Hours> _hoursData = List.generate(hours.length, (index) {
+      return Hours(isSelected: false, name: hours[index]);
+    });
+
+    hoursView = [
+      HoursWidget(
+        hoursData: _hoursData,
+        selectedIndex: 0,
+      ),
+      HoursWidget(
+        hoursData: _hoursData,
+        selectedIndex: 1,
+      ),
+      HoursWidget(
+        hoursData: _hoursData,
+        selectedIndex: 2,
+      ),
+      HoursWidget(
+        hoursData: _hoursData,
+        selectedIndex: 3,
+      ),
+      HoursWidget(
+        hoursData: _hoursData,
+        selectedIndex: 4,
+      ),
+      HoursWidget(
+        hoursData: _hoursData,
+        selectedIndex: 5,
+      ),
+      HoursWidget(
+        hoursData: _hoursData,
+        selectedIndex: 6,
+      ),
+    ];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    List<Widget> hoursView = [
-      hoursWidget(size),
-      hoursWidget(size),
-      hoursWidget(size),
-      hoursWidget(size),
-      hoursWidget(size),
-      hoursWidget(size),
-      hoursWidget(size),
-    ];
 
     //print(currentSelectedDay.selectedHours);
 
@@ -157,7 +191,7 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
 
                 SizedBox(
                   height: 280,
-                  child: hoursView[hoursViewIndex],
+                  child: hoursView[selectedIndex],
                 ),
               ],
             ),
@@ -167,84 +201,37 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
     );
   }
 
-  GridView hoursWidget(Size size) {
-    return GridView.builder(
-      itemCount: hours.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 10.0,
-          childAspectRatio: 2.7 / 1),
-      itemBuilder: (context, index) {
-        return hoursTab(size, index, hoursViewIndex);
-      },
-    );
-  }
-
-  Widget hoursTab(
-    Size size,
-    int index,
-    int selectedIndex,
-  ) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          hoursData[index].isSelected = !hoursData[index].isSelected;
-          // add/remove hours from selectedDay
-          if (hoursData[index].isSelected) {
-            currentSelectedDay.selectedHours.add(hoursData[index]);
-          } else {
-            currentSelectedDay.selectedHours.remove(hoursData[index]);
-          }
-        });
-      },
-      child: Container(
-        height: 48,
-        width: 160,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: hoursData[index].isSelected == true
-              ? const Color(0xffF8C569)
-              : Colors.grey.shade300,
-        ),
-        child: Center(child: Text("${hoursData[index].name} $selectedIndex")),
-      ),
-    );
-  }
-
   Widget weekTabs(String weekName, int index) {
     return InkWell(
       onTap: () {
-        setState(() {
-          weekData[index].isSelected = !weekData[index].isSelected;
+        weekData[index].isSelected = !weekData[index].isSelected;
 
-          print("selected index $index");
-          hoursViewIndex = index;
+        selectedIndex = index;
+        print("selected index inside main page $index");
+        if (currentSelectedDay.name == weekData[index].name) {
+          weekData[index]
+              .selectedHours
+              .addAll(currentSelectedDay.selectedHours);
+        }
 
-          if (currentSelectedDay.name == weekData[index].name) {
-            weekData[index]
-                .selectedHours
-                .addAll(currentSelectedDay.selectedHours);
+        //show selected hours from selected day
+        for (var selectedhour in weekData[index].selectedHours) {
+          for (var element in hoursData) {
+            element.isSelected =
+                selectedhour.name == element.name ? true : false;
           }
+        }
 
-          //show selected hours from selected day
-          for (var selectedhour in weekData[index].selectedHours) {
-            for (var element in hoursData) {
-              element.isSelected =
-                  selectedhour.name == element.name ? true : false;
-            }
+        for (int i = 0; i < 7; i++) {
+          if (index == i) {
+            weekData[i].currentIndex = true;
+            currentSelectedDay = weekData[i];
+          } else {
+            weekData[i].currentIndex = false;
+            //print(weekData[i].isSelected);
           }
-
-          for (int i = 0; i < 7; i++) {
-            if (index == i) {
-              weekData[i].currentIndex = true;
-              currentSelectedDay = weekData[i];
-            } else {
-              weekData[i].currentIndex = false;
-              //print(weekData[i].isSelected);
-            }
-          }
-        });
+        }
+        setState(() {});
       },
       child: Padding(
         padding: const EdgeInsets.only(
