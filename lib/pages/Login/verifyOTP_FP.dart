@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:softwarelab_assignment/pages/Login/login.dart';
+import 'package:softwarelab_assignment/pages/Login/resetPass.dart';
 
 import '../../widgets/widgetsUi.dart';
 
@@ -59,7 +61,12 @@ class _Verify_FPState extends State<Verify_FP> {
                         style: TextStyle(color: Colors.grey.shade500),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()));
+                        },
                         child: Text(
                           'Login',
                           style: TextStyle(
@@ -97,7 +104,10 @@ class _Verify_FPState extends State<Verify_FP> {
 
                   //submit button
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => ResetPass()));
+                    },
                     child: buttonWidget(
                       'Submit',
                     ),

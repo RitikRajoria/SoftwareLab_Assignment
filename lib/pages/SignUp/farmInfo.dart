@@ -36,6 +36,7 @@ class _FarmInfoState extends State<FarmInfo> {
         context,
         MaterialPageRoute(
           builder: (context) => VerifySignup(
+              role: 'farmer',
               email: widget.email,
               password: widget.password,
               phone: widget.phone,
@@ -109,25 +110,25 @@ class _FarmInfoState extends State<FarmInfo> {
                       children: [
                         //business name
                         inputFields('assets/Group 59@3x.png', 'Business Name',
-                            false, businessName, false),
+                            false, businessName, false, context),
                         const SizedBox(
                           height: 25,
                         ),
                         //informal name
                         inputFields('assets/Group 57@3x.png', 'Informal Name',
-                            false, nickName, false),
+                            false, nickName, false, context),
                         const SizedBox(
                           height: 25,
                         ),
                         //street address
                         inputFields('assets/Vector@3x-3.png', 'Street Address',
-                            false, streetAddress, false),
+                            false, streetAddress, false, context),
                         const SizedBox(
                           height: 25,
                         ),
                         //city name
                         inputFields('assets/Group 58@3x.png', 'City', false,
-                            city, false),
+                            city, false, context),
                         const SizedBox(
                           height: 25,
                         ),

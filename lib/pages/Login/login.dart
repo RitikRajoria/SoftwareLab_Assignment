@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:softwarelab_assignment/pages/SignUp/signup.dart';
 
 import '../../widgets/widgetsUi.dart';
 
@@ -61,7 +62,12 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(color: Colors.grey.shade500),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpPage()));
+                        },
                         child: Text(
                           'Create account',
                           style: TextStyle(
@@ -81,13 +87,13 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         //email
                         inputFields('assets/Vector@3x-2.png', 'Email Address',
-                            false, emailController, false),
+                            false, emailController, false,context),
                         const SizedBox(
                           height: 28,
                         ),
                         //password field
                         inputFields('assets/Group 47@3x.png', 'Password', true,
-                            passwordController, true),
+                            passwordController, true,context),
                       ],
                     ),
                   ),

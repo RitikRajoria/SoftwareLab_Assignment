@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:softwarelab_assignment/pages/SignUp/widgets/hours_widget.dart';
 
 import 'package:softwarelab_assignment/utils/weekDays.dart';
 
+import '../../data services/data_services.dart';
 import '../../models/days_model.dart';
 import '../../utils/hours.dart';
+import '../../widgets/widgetsUi.dart';
 
 class BusinessHoursPage extends StatefulWidget {
   final String email;
@@ -12,6 +16,7 @@ class BusinessHoursPage extends StatefulWidget {
   final String phone;
   final String fullname;
   final String bName;
+  final String role;
   final String nickName;
   final String address;
   final String city;
@@ -29,6 +34,7 @@ class BusinessHoursPage extends StatefulWidget {
       required this.nickName,
       required this.address,
       required this.city,
+      required this.role,
       required this.state,
       required this.zipcode,
       required this.verification});
@@ -52,8 +58,45 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
         currentIndex: false);
   });
 
-  _register() {
-    print('register');
+  _register() async {
+    print("registering");
+
+    var data = new Map<String, dynamic>();
+    data['full_name'] = widget.fullname;
+    data['email'] = widget.email;
+    data['phone'] = widget.phone;
+    data['password'] = widget.password;
+    data['role'] = widget.role;
+    data['business_name'] = widget.bName;
+    data['informal_name'] = widget.nickName;
+    data['address'] = widget.address;
+    data['city'] = widget.city;
+    data['state'] = widget.state;
+    data['zip_code'] = widget.zipcode;
+    data['registration_proof'] = widget.verification;
+    data['business_hours'] = 'asdasd';
+    data['device_token'] = '0imfnc8mVLWwsAawjYr4Rx-Af50DDqtlx';
+    data['type'] = 'email';
+    data['social_id'] = '0imfnc8mVLWwsAawjYr4Rx-Af50DDqtlx';
+
+    var res = await RegisterCallApi().registerAccount(data);
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      //navigate to other page
+      print("registered");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Registered Successfully!")));
+    } else if (body['message'] == "Email already exists.") {
+      //email exists
+      print("emailexists");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+    } else {
+      //navigate to other page
+      print(body['message']);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+    }
   }
 
   var currentSelectedDay = Days(
@@ -71,6 +114,11 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
     final List<Hours> _hoursData = List.generate(hours.length, (index) {
       return Hours(isSelected: false, name: hours[index]);
     });
+
+    selectedIndex = 0;
+
+    weekData[0].isSelected = true;
+    weekData[0].currentIndex = true;
 
     hoursView = [
       HoursWidget(
@@ -192,6 +240,39 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
                 SizedBox(
                   height: 280,
                   child: hoursView[selectedIndex],
+                ),
+
+                const SizedBox(height: 50),
+
+                //signup button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    //back button
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 18,
+                        width: 26,
+                        child: Image.asset('assets/Vector@3x-4.png'),
+                      ),
+                    ),
+
+                    //continue button
+                    InkWell(
+                      onTap: () {
+                        _register();
+                      },
+                      child: Container(
+                        width: (size.width) * 0.58,
+                        child: buttonWidget(
+                          'Signup',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

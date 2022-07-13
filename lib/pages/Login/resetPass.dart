@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:softwarelab_assignment/pages/Login/login.dart';
 
 import '../../widgets/widgetsUi.dart';
 
@@ -60,7 +61,12 @@ class _ResetPassState extends State<ResetPass> {
                         style: TextStyle(color: Colors.grey.shade500),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()));
+                        },
                         child: Text(
                           'Login',
                           style: TextStyle(
@@ -81,14 +87,19 @@ class _ResetPassState extends State<ResetPass> {
                       children: [
                         //new password
                         inputFields('assets/Group 47@3x.png', 'NewPassword',
-                            false, newPass, false),
+                            false, newPass, false, context),
 
                         const SizedBox(
                           height: 28,
                         ),
                         //re-enter password
-                        inputFields('assets/Group 47@3x.png',
-                            'Confirm New Password', false, reEnterPass, false),
+                        inputFields(
+                            'assets/Group 47@3x.png',
+                            'Confirm New Password',
+                            false,
+                            reEnterPass,
+                            false,
+                            context),
 
                         const SizedBox(
                           height: 20,

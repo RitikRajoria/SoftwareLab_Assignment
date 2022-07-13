@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:softwarelab_assignment/pages/Login/forgotPass.dart';
 
 Row iconButtons() {
   return Row(
@@ -93,7 +94,7 @@ Widget buttonWidgetUnderlined(String text) {
 }
 
 Widget inputFields(String src, String hint, bool suffixBtn,
-    TextEditingController controller, bool obscureText) {
+    TextEditingController controller, bool obscureText, BuildContext context) {
   return Container(
     width: double.infinity,
     height: 60,
@@ -114,7 +115,8 @@ Widget inputFields(String src, String hint, bool suffixBtn,
         suffix: suffixBtn
             ? TextButton(
                 onPressed: () {
-                  print("forgot password clicked");
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ForgotPass()));
                 },
                 child: Text(
                   'Forgot ?',
@@ -135,4 +137,5 @@ Widget inputFields(String src, String hint, bool suffixBtn,
     ),
   );
 }
+
 

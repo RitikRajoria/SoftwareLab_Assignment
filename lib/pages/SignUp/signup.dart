@@ -176,30 +176,30 @@ class _SignUpPageState extends State<SignUpPage> {
                       children: [
                         //full name
                         inputFields('assets/Group 54@3x.png', 'Full Name',
-                            false, _fullName, false),
+                            false, _fullName, false,context),
                         const SizedBox(
                           height: 25,
                         ),
                         //email
                         inputFields('assets/Vector@3x-2.png', 'Email Address',
-                            false, _email, false),
+                            false, _email, false,context),
                         const SizedBox(
                           height: 25,
                         ),
                         //phone number
                         inputFields('assets/Vector@3x-1.png', 'Phone Number',
-                            false, _phoneNumber, false),
+                            false, _phoneNumber, false,context),
                         const SizedBox(
                           height: 25,
                         ),
                         //password field
                         inputFields('assets/Group 47@3x.png', 'Enter Password',
-                            false, _pass, true),
+                            false, _pass, true,context),
                         const SizedBox(
                           height: 25,
                         ),
                         inputFields('assets/Group 47@3x.png',
-                            'Re-enter Password', false, _rePass, true),
+                            'Re-enter Password', false, _rePass, true,context),
                       ],
                     ),
                   ),

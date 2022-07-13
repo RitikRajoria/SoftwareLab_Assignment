@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:softwarelab_assignment/pages/Login/verifyOTP_FP.dart';
 import 'package:softwarelab_assignment/widgets/widgetsUi.dart';
 
 class ForgotPass extends StatefulWidget {
@@ -57,7 +58,9 @@ class _ForgotPassState extends State<ForgotPass> {
                         style: TextStyle(color: Colors.grey.shade500),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                         child: Text(
                           'Login',
                           style: TextStyle(
@@ -78,7 +81,7 @@ class _ForgotPassState extends State<ForgotPass> {
                       children: [
                         //email
                         inputFields('assets/Vector@3x-1.png', 'Phone Number',
-                            false, phoneController, false),
+                            false, phoneController, false, context),
                         const SizedBox(
                           height: 20,
                         ),
@@ -88,7 +91,10 @@ class _ForgotPassState extends State<ForgotPass> {
 
                   //login button
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Verify_FP()));
+                    },
                     child: buttonWidget(
                       'Send Code',
                     ),

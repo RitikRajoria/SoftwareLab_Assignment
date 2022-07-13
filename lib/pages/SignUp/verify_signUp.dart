@@ -18,6 +18,7 @@ class VerifySignup extends StatefulWidget {
   final String city;
   final String state;
   final String zipcode;
+  final String role;
 
   const VerifySignup(
       {super.key,
@@ -30,6 +31,7 @@ class VerifySignup extends StatefulWidget {
       required this.address,
       required this.city,
       required this.state,
+      required this.role,
       required this.zipcode});
 
   @override
@@ -37,7 +39,7 @@ class VerifySignup extends StatefulWidget {
 }
 
 class _VerifySignupState extends State<VerifySignup> {
-  String fileName = "xyz";
+  String fileName = "";
   TextEditingController filename = TextEditingController();
 
   _nextPage() {
@@ -56,6 +58,7 @@ class _VerifySignupState extends State<VerifySignup> {
             state: widget.state,
             zipcode: widget.zipcode,
             verification: fileName,
+            role: widget.role,
           ),
         ));
   }
