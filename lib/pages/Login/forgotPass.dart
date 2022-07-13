@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:softwarelab_assignment/pages/Login/verifyOTP_FP.dart';
 import 'package:softwarelab_assignment/widgets/widgetsUi.dart';
+
+import '../../data services/data_services.dart';
 
 class ForgotPass extends StatefulWidget {
   const ForgotPass({Key? key}) : super(key: key);
@@ -12,6 +16,36 @@ class ForgotPass extends StatefulWidget {
 class _ForgotPassState extends State<ForgotPass> {
   TextEditingController phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  _forgotPass() async {
+    print("checking number....");
+
+    String data = '{"mobile": "${phoneController.text}"}';
+
+    var res = await CallApi().forgotPassAccount(data, 'user/forgot-password');
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      //otp sent
+      print("logged In");
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("OTP sent to your mobile.")));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Verify_Otp(
+                    phone: phoneController.text,
+                  )));
+    } else if (body['message'] == "Couldn't send an OTP, please try again.") {
+      //success false state
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+    } else {
+      //account with number not exists
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,8 +126,7 @@ class _ForgotPassState extends State<ForgotPass> {
                   //login button
                   InkWell(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Verify_FP()));
+                      _forgotPass();
                     },
                     child: buttonWidget(
                       'Send Code',

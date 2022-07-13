@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:softwarelab_assignment/pages/Login/login.dart';
 
+import '../../data services/data_services.dart';
 import '../../widgets/widgetsUi.dart';
 
 class ResetPass extends StatefulWidget {
-  const ResetPass({Key? key}) : super(key: key);
+  final String token;
+
+  const ResetPass({super.key, required this.token});
 
   @override
   State<ResetPass> createState() => _ResetPassState();
@@ -12,9 +17,31 @@ class ResetPass extends StatefulWidget {
 
 class _ResetPassState extends State<ResetPass> {
   TextEditingController newPass = TextEditingController();
-  TextEditingController reEnterPass = TextEditingController();
+  TextEditingController confirmPass = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  _resetPass() async {
+    print("checking number....");
+
+    String data =
+        '{"token": "${widget.token}","password": "${newPass.text}","cpassword": "${confirmPass.text}"}';
+
+    var res = await CallApi().resetPassAccount(data, 'user/reset-password');
+    var body = jsonDecode(res.body);
+    if (body['success']) {
+      //pass reset done
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Your password has been successfully changed.")));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
+    } else {
+      //server error message
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("${body['message']}")));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +124,7 @@ class _ResetPassState extends State<ResetPass> {
                             'assets/Group 47@3x.png',
                             'Confirm New Password',
                             false,
-                            reEnterPass,
+                            confirmPass,
                             false,
                             context),
 
@@ -110,7 +137,9 @@ class _ResetPassState extends State<ResetPass> {
 
                   //submit button
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      _resetPass();
+                    },
                     child: buttonWidget(
                       'Submit',
                     ),
