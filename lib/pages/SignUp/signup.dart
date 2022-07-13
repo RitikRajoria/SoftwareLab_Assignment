@@ -111,31 +111,31 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: Column(
                       children: [
                         //full name
-                        inputFields('assets/Group 54@3x.png', 'Full Name',
-                            false, _fullName, false,context),
+                        inputFields(src: 'assets/Group 54@3x.png',hint:  'Full Name',suffixBtn: 
+                            false,controller:  _fullName,obscureText:  false,context:  context),
                         const SizedBox(
                           height: 25,
                         ),
                         //email
-                        inputFields('assets/Vector@3x-2.png', 'Email Address',
-                            false, _email, false,context),
+                        inputFields(src: 'assets/Vector@3x-2.png',hint:  'Email Address',suffixBtn: 
+                            false,controller:  _email,obscureText:  false,context:  context),
                         const SizedBox(
                           height: 25,
                         ),
                         //phone number
-                        inputFields('assets/Vector@3x-1.png', 'Phone Number',
-                            false, _phoneNumber, false,context),
+                        inputFields(src:'assets/Vector@3x-1.png',hint:  'Phone Number',suffixBtn: 
+                            false,controller:  _phoneNumber,obscureText:  false,context:  context),
                         const SizedBox(
                           height: 25,
                         ),
                         //password field
-                        inputFields('assets/Group 47@3x.png', 'Enter Password',
-                            false, _pass, true,context),
+                        inputFields(src:'assets/Group 47@3x.png', hint: 'Enter Password',suffixBtn: 
+                            false,controller:  _pass,obscureText:  true,context:  context),
                         const SizedBox(
                           height: 25,
                         ),
-                        inputFields('assets/Group 47@3x.png',
-                            'Re-enter Password', false, _rePass, true,context),
+                        inputFields(src:'assets/Group 47@3x.png',hint: 
+                            'Re-enter Password',suffixBtn:  false,controller:  _rePass, obscureText:  true,context:  context),
                       ],
                     ),
                   ),

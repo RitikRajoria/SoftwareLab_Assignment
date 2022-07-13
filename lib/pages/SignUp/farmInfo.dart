@@ -109,26 +109,26 @@ class _FarmInfoState extends State<FarmInfo> {
                     child: Column(
                       children: [
                         //business name
-                        inputFields('assets/Group 59@3x.png', 'Business Name',
-                            false, businessName, false, context),
+                        inputFields(src:'assets/Group 59@3x.png',hint:  'Business Name',suffixBtn: 
+                            false,controller:  businessName,obscureText:  false,context:  context),
                         const SizedBox(
                           height: 25,
                         ),
                         //informal name
-                        inputFields('assets/Group 57@3x.png', 'Informal Name',
-                            false, nickName, false, context),
+                        inputFields(src: 'assets/Group 57@3x.png',hint:  'Informal Name',
+                            suffixBtn: false,controller:  nickName,obscureText:  false,context:  context),
                         const SizedBox(
                           height: 25,
                         ),
                         //street address
-                        inputFields('assets/Vector@3x-3.png', 'Street Address',
-                            false, streetAddress, false, context),
+                        inputFields(src:'assets/Vector@3x-3.png',hint:  'Street Address',suffixBtn: 
+                            false,controller:  streetAddress,obscureText:  false,context:  context),
                         const SizedBox(
                           height: 25,
                         ),
                         //city name
-                        inputFields('assets/Group 58@3x.png', 'City', false,
-                            city, false, context),
+                        inputFields(src: 'assets/Group 58@3x.png',hint:  'City',suffixBtn:  false,
+                           controller:  city,obscureText:  false,context:  context),
                         const SizedBox(
                           height: 25,
                         ),

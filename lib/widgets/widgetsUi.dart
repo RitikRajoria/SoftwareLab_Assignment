@@ -93,12 +93,13 @@ Widget buttonWidgetUnderlined(String text) {
   );
 }
 
-Widget inputFields(String src, String hint, bool suffixBtn,
-    TextEditingController controller, bool obscureText, BuildContext context) {
+Widget inputFields({required String src, required String hint, required bool suffixBtn,
+    required TextEditingController controller, required bool obscureText, required BuildContext context, String? Function(String?)? validate}) {
   return Container(
     width: double.infinity,
     height: 60,
     child: TextFormField(
+      validator: validate,
       obscureText: obscureText,
       controller: controller,
       cursorColor: Colors.black,

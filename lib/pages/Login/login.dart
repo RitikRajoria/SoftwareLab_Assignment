@@ -49,6 +49,19 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  String? _emailValidate(String? value) {
+    if (value == null) {
+      return null;
+    }
+    if (value.isEmpty) {
+      return ("Please Enter Your Email");
+    }
+    //reg expression
+    if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
+      return ("Please Enter a valid email");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -120,14 +133,26 @@ class _LoginPageState extends State<LoginPage> {
                     child: Column(
                       children: [
                         //email
-                        inputFields('assets/Vector@3x-2.png', 'Email Address',
-                            false, emailController, false, context),
+                        inputFields(
+                          src: 'assets/Vector@3x-2.png',
+                          hint: 'Email Address',
+                          suffixBtn: false,
+                          controller: emailController,
+                          obscureText: false,
+                          context: context,
+                        ),
+
                         const SizedBox(
                           height: 28,
                         ),
                         //password field
-                        inputFields('assets/Group 47@3x.png', 'Password', true,
-                            passwordController, true, context),
+                        inputFields(
+                            src: 'assets/Group 47@3x.png',
+                            hint: 'Password',
+                            suffixBtn: true,
+                            controller: passwordController,
+                            obscureText: true,
+                            context: context),
                       ],
                     ),
                   ),

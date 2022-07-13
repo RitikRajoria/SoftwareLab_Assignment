@@ -113,20 +113,25 @@ class _ResetPassState extends State<ResetPass> {
                     child: Column(
                       children: [
                         //new password
-                        inputFields('assets/Group 47@3x.png', 'NewPassword',
-                            false, newPass, false, context),
+                        inputFields(
+                            src: 'assets/Group 47@3x.png',
+                            hint: 'NewPassword',
+                            suffixBtn: false,
+                            controller: newPass,
+                            obscureText: false,
+                            context: context),
 
                         const SizedBox(
                           height: 28,
                         ),
                         //re-enter password
                         inputFields(
-                            'assets/Group 47@3x.png',
-                            'Confirm New Password',
-                            false,
-                            confirmPass,
-                            false,
-                            context),
+                            src:'assets/Group 47@3x.png',
+                            hint:'Confirm New Password',
+                            suffixBtn:  false,
+                            controller: confirmPass,
+                            obscureText: false,
+                            context: context),
 
                         const SizedBox(
                           height: 20,

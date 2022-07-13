@@ -32,8 +32,9 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^3.0.1
-  open_file: ^3.2.1
   http: ^0.13.4
+  introduction_screen: ^3.0.2
+  open_file: ^3.2.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
