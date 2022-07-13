@@ -22,7 +22,12 @@ class _onBoardingMainState extends State<onBoardingMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: PageView.builder(itemCount:pages.length,itemBuilder: ),
+        child: PageView.builder(
+          itemCount: pages.length,
+          itemBuilder: (BuildContext context, int itemIndex) {
+            return pages[itemIndex];
+          },
+        ),
       ),
     );
   }

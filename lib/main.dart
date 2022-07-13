@@ -3,6 +3,7 @@ import 'package:softwarelab_assignment/pages/Login/forgotPass.dart';
 import 'package:softwarelab_assignment/pages/Login/login.dart';
 import 'package:softwarelab_assignment/pages/Login/verifyOTP_FP.dart';
 import 'package:softwarelab_assignment/pages/OnBoarding/onBoarding1.dart';
+import 'package:softwarelab_assignment/pages/OnBoarding/onboarding_main.dart';
 import 'package:softwarelab_assignment/pages/SignUp/signup.dart';
 
 void main() {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Onboarding1(),
+      home: onBoardingMain(),
     );
   }
 }
