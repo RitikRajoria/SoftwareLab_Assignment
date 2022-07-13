@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
+
 import 'package:softwarelab_assignment/utils/weekDays.dart';
 
+import '../../models/days_model.dart';
 import '../../utils/hours.dart';
 
 class BusinessHoursPage extends StatefulWidget {
@@ -39,31 +39,49 @@ class BusinessHoursPage extends StatefulWidget {
 class _BusinessHoursPageState extends State<BusinessHoursPage> {
   int selectedIndex = 0;
 
-  final List<Map> weekData = List.generate(
-      weekDays.length,
-      (index) => {
-            'id': index,
-            'name': '${weekDays[index]}',
-            'isSelected': false,
-            'currentIndex': false
-          });
-  final List<Map> hoursData = List.generate(
-      hours.length,
-      (index) => {
-            'id': index,
-            'name': '${hours[index]}',
-            'isSelected': false,
-          });
-          
- 
+  final List<Days> weekData = List.generate(weekDays.length, (index) {
+    return Days(
+        selectedHours: [],
+        isSelected: false,
+        name: weekDays[index],
+        currentIndex: false);
+  });
+  final List<Hours> hoursData = List.generate(hours.length, (index) {
+    return Hours(isSelected: false, name: hours[index]);
+  });
 
   _register() {
     print('register');
   }
 
+  var currentSelectedDay = Days(
+      selectedHours: [],
+      isSelected: false,
+      name: weekDays[0],
+      currentIndex: true);
+
+  int hoursViewIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    List<Widget> hoursView = [
+      hoursWidget(size),
+      hoursWidget(size),
+      hoursWidget(size),
+      hoursWidget(size),
+      hoursWidget(size),
+      hoursWidget(size),
+      hoursWidget(size),
+    ];
+
+    //print(currentSelectedDay.selectedHours);
+
+    // for (var hour in hoursData) {
+    //   currentSelectedDay.selectedHours.forEach((element) {
+    //     hour.isSelected = element.name == hour.name ? true : false;
+    //   });
+    // }
 
     return Scaffold(
       body: SafeArea(
@@ -73,7 +91,7 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
             child: Column(
               children: [
                 // first heading
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'FarmerEats',
@@ -97,7 +115,7 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
                 ),
 
                 //Verification text
-                Align(
+                const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Business Hours',
@@ -125,33 +143,21 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
                 //week days tab
                 Container(
                   height: 100,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 25, bottom: 34),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: weekData.length,
-                      itemBuilder: (context, index) {
-                        return weekTabs(weekData[index]['name'], index);
-                      },
-                    ),
+                  padding: const EdgeInsets.only(top: 25, bottom: 34),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: weekData.length,
+                    itemBuilder: (context, index) {
+                      return weekTabs(weekData[index].name, index);
+                    },
                   ),
                 ),
 
                 //timeline grid
 
-                Container(
+                SizedBox(
                   height: 280,
-                  child: GridView.builder(
-                    itemCount: hours.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        childAspectRatio: 2.7 / 1),
-                    itemBuilder: (context, index) {
-                      return hoursTab(size, index);
-                    },
-                  ),
+                  child: hoursView[hoursViewIndex],
                 ),
               ],
             ),
@@ -161,11 +167,35 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
     );
   }
 
-  Widget hoursTab(Size size, int index) {
+  GridView hoursWidget(Size size) {
+    return GridView.builder(
+      itemCount: hours.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+          childAspectRatio: 2.7 / 1),
+      itemBuilder: (context, index) {
+        return hoursTab(size, index, hoursViewIndex);
+      },
+    );
+  }
+
+  Widget hoursTab(
+    Size size,
+    int index,
+    int selectedIndex,
+  ) {
     return InkWell(
       onTap: () {
         setState(() {
-          hoursData[index]['isSelected'] = !hoursData[index]['isSelected'];
+          hoursData[index].isSelected = !hoursData[index].isSelected;
+          // add/remove hours from selectedDay
+          if (hoursData[index].isSelected) {
+            currentSelectedDay.selectedHours.add(hoursData[index]);
+          } else {
+            currentSelectedDay.selectedHours.remove(hoursData[index]);
+          }
         });
       },
       child: Container(
@@ -173,11 +203,11 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
         width: 160,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: hoursData[index]['isSelected'] == true
-              ? Color(0xffF8C569)
+          color: hoursData[index].isSelected == true
+              ? const Color(0xffF8C569)
               : Colors.grey.shade300,
         ),
-        child: Center(child: Text('${hoursData[index]['name']}')),
+        child: Center(child: Text("${hoursData[index].name} $selectedIndex")),
       ),
     );
   }
@@ -186,16 +216,32 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
     return InkWell(
       onTap: () {
         setState(() {
-          weekData[index]['isSelected'] = !weekData[index]['isSelected'];
+          weekData[index].isSelected = !weekData[index].isSelected;
+
+          print("selected index $index");
+          hoursViewIndex = index;
+
+          if (currentSelectedDay.name == weekData[index].name) {
+            weekData[index]
+                .selectedHours
+                .addAll(currentSelectedDay.selectedHours);
+          }
+
+          //show selected hours from selected day
+          for (var selectedhour in weekData[index].selectedHours) {
+            for (var element in hoursData) {
+              element.isSelected =
+                  selectedhour.name == element.name ? true : false;
+            }
+          }
 
           for (int i = 0; i < 7; i++) {
             if (index == i) {
-              weekData[i]['currentIndex'] = true;
-              //weekData[i]['isSelected'] = true;
-              // print(weekData[i]['isSelected']);
+              weekData[i].currentIndex = true;
+              currentSelectedDay = weekData[i];
             } else {
-              weekData[i]['currentIndex'] = false;
-              print(weekData[i]['isSelected']);
+              weekData[i].currentIndex = false;
+              //print(weekData[i].isSelected);
             }
           }
         });
@@ -210,14 +256,14 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
           width: 40,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: weekData[index]['currentIndex']
-                ? Color(0xffd5715b)
-                : weekData[index]['isSelected'] == true
+            color: weekData[index].currentIndex
+                ? const Color(0xffd5715b)
+                : weekData[index].isSelected == true
                     ? Colors.grey.shade300
                     : Colors.white,
             border: Border.all(
                 width: 1,
-                color: weekData[index]['isSelected'] == false
+                color: weekData[index].isSelected == false
                     ? Colors.grey.shade400
                     : Colors.transparent),
           ),
@@ -225,9 +271,9 @@ class _BusinessHoursPageState extends State<BusinessHoursPage> {
             child: Text(
               weekName,
               style: TextStyle(
-                color: weekData[index]['currentIndex']
+                color: weekData[index].currentIndex
                     ? Colors.white
-                    : weekData[index]['isSelected']
+                    : weekData[index].isSelected
                         ? Colors.black
                         : Colors.grey.shade400,
                 fontWeight: FontWeight.w500,
